@@ -1,0 +1,286 @@
+https://codegolf.stackexchange.com/questions/205533/determine-the-sharpness-of-a-word
+
+<h1 class="grid--cell fs-headline1 fl1 ow-break-word mb8" itemprop="name">
+ <a class="question-hyperlink" href="/questions/205533/determine-the-sharpness-of-a-word">
+  Determine the Sharpness of a Word
+ </a>
+</h1>
+
+
+<div class="post-text" itemprop="text">
+ <div>
+  <aside class="s-notice s-notice__info js-post-notice mb16 js-bounty-notification" role="status">
+   <div class="grid fd-column fw-nowrap">
+    <div class="grid fw-nowrap">
+     <div class="grid--cell mr8">
+      <svg aria-hidden="true" class="svg-icon iconClock" height="18" viewbox="0 0 18 18" width="18">
+       <path d="M9 17A8 8 0 119 1a8 8 0 010 16zm0-2A6 6 0 109 3a6 6 0 000 12zM8 5h1.01L9 9.36l3.22 2.1-.6.93L8 10V5z">
+       </path>
+      </svg>
+     </div>
+     <div class="grid--cell fl1 lh-lg">
+      <div class="grid--cell fl1 lh-lg">
+       <b>
+        The
+        <a href="https://codegolf.stackexchange.com/help/bounty">
+         bounty
+        </a>
+        expires
+        <span title="2020-06-12 20:04:22Z">
+         in 3 days
+        </span>
+       </b>
+       . Answers to this question are eligible for a
+       <span class="s-badge__bounty d-inline px4 py2 ba bc-transparent bar-sm fs-caption va-middle">
+        +150
+       </span>
+       reputation bounty.
+       <a href="/users/20260/xnor">
+        xnor
+       </a>
+       wants to
+       <b>
+        reward an existing answer
+       </b>
+       :
+       <blockquote>
+        <div>
+         To
+         <a href="https://codegolf.stackexchange.com/a/205606/20260">
+          David's Python answer
+         </a>
+         for my
+         <a href="https://codegolf.meta.stackexchange.com/a/18334/20260">
+          standing bounty on outgolfing me
+         </a>
+         .
+        </div>
+       </blockquote>
+      </div>
+     </div>
+    </div>
+   </div>
+  </aside>
+ </div>
+ <h2>
+  Overview
+ </h2>
+ <p>
+  The
+  <em>
+   sharpness
+  </em>
+  of a word is the sum of the sharpness of each of its letters, using the following rules:
+ </p>
+ <p>
+  <strong>
+   Sharp letters
+  </strong>
+ </p>
+ <ul>
+  <li>
+   <p>
+    <code>
+     A
+    </code>
+    , and
+    <code>
+     V
+    </code>
+    each have a sharpness of
+    <strong>
+     1
+    </strong>
+   </p>
+  </li>
+  <li>
+   <p>
+    <code>
+     N
+    </code>
+    and
+    <code>
+     Z
+    </code>
+    each have a sharpness of
+    <strong>
+     2
+    </strong>
+   </p>
+  </li>
+  <li>
+   <p>
+    <code>
+     M
+    </code>
+    and
+    <code>
+     W
+    </code>
+    each have a sharpness of
+    <strong>
+     3
+    </strong>
+   </p>
+  </li>
+ </ul>
+ <p>
+  <strong>
+   Dull letters
+  </strong>
+ </p>
+ <ul>
+  <li>
+   <p>
+    <code>
+     C
+    </code>
+    and
+    <code>
+     U
+    </code>
+    each have a sharpness of
+    <strong>
+     -1
+    </strong>
+   </p>
+  </li>
+  <li>
+   <p>
+    <code>
+     S
+    </code>
+    has a sharpness of
+    <strong>
+     -2
+    </strong>
+   </p>
+  </li>
+  <li>
+   <p>
+    <code>
+     O
+    </code>
+    has a sharpness of
+    <strong>
+     -3
+    </strong>
+   </p>
+  </li>
+ </ul>
+ <p>
+  <strong>
+   All other letters
+  </strong>
+  have a sharpness of
+  <strong>
+   0
+  </strong>
+  .
+ </p>
+ <h3>
+  Example
+ </h3>
+ <p>
+  The word
+  <code>
+   SAUCE
+  </code>
+  has a sharpness of
+  <strong>
+   -3
+  </strong>
+  since the
+  <code>
+   A
+  </code>
+  contributes 1, the
+  <code>
+   U
+  </code>
+  and
+  <code>
+   C
+  </code>
+  each contribute -1 and the
+  <code>
+   S
+  </code>
+  contributes -2.
+ </p>
+ <p>
+  The word
+  <code>
+   MAZE
+  </code>
+  has a sharpness of
+  <strong>
+   6
+  </strong>
+  since the
+  <code>
+   M
+  </code>
+  contributes 3, the
+  <code>
+   Z
+  </code>
+  contributes 2, and the
+  <code>
+   A
+  </code>
+  contributes 1.
+ </p>
+ <h2>
+  Task
+ </h2>
+ <p>
+  Given as input a string containing only uppercase letters*, determine the sharpness of that string.
+ </p>
+ <p>
+  *If you wish, you may instead take the input as a string containing only lowercase letters. Other common input formats are also acceptable (eg. a list of characters, a list of codepoints, etc.)
+ </p>
+ <h2>
+  Scoring
+ </h2>
+ <p>
+  This is
+  <a class="post-tag" href="/questions/tagged/code-golf" rel="tag" title="show questions tagged 'code-golf'">
+   code-golf
+  </a>
+  !
+ </p>
+ <h2>
+  Test Cases
+ </h2>
+ <pre><code>CODE =&gt; -4
+GOLF =&gt; -3
+SAUCE =&gt; -3
+CATS =&gt; -2
+MOON =&gt; -1
+NONSENSE =&gt; -1
+ZUCKERBERG =&gt; 0
+STRING =&gt; 0
+CHALLENGE =&gt; 2
+NAIL =&gt; 3
+CARNIVAL =&gt; 4
+COMPLIMENT =&gt; 4
+WAVE =&gt; 5
+UNKNOWN =&gt; 5
+MAZE =&gt; 6
+</code></pre>
+ <p>
+  <strong>
+   Extra test cases (Provided by
+   <a href="https://codegolf.stackexchange.com/users/92237/surculose-sputum">
+    @Surculose Sputum
+   </a>
+   )
+  </strong>
+ </p>
+ <pre><code>MIZZENMASTMAN =&gt; 17
+PNEUMONOULTRAMICROSCOPICSILICOVOLCANOCONIOSIS =&gt; -26
+MANAGEMENT =&gt; 12
+CONSCIOUSNESS =&gt; -13
+</code></pre>
+</div>
