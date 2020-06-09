@@ -1,0 +1,223 @@
+https://codegolf.stackexchange.com/questions/45684/correct-errors-using-hamming7-4
+
+<h1 class="grid--cell fs-headline1 fl1 ow-break-word mb8" itemprop="name">
+ <a class="question-hyperlink" href="/questions/45684/correct-errors-using-hamming7-4">
+  Correct errors using Hamming(7,4)
+ </a>
+</h1>
+
+
+<div class="post-text" itemprop="text">
+ <div>
+  <aside class="s-notice s-notice__info js-post-notice mb16 js-bounty-notification" role="status">
+   <div class="grid fd-column fw-nowrap">
+    <div class="grid fw-nowrap">
+     <div class="grid--cell mr8">
+      <svg aria-hidden="true" class="svg-icon iconClock" height="18" viewbox="0 0 18 18" width="18">
+       <path d="M9 17A8 8 0 119 1a8 8 0 010 16zm0-2A6 6 0 109 3a6 6 0 000 12zM8 5h1.01L9 9.36l3.22 2.1-.6.93L8 10V5z">
+       </path>
+      </svg>
+     </div>
+     <div class="grid--cell fl1 lh-lg">
+      <div class="grid--cell fl1 lh-lg">
+       <b>
+        The
+        <a href="https://codegolf.stackexchange.com/help/bounty">
+         bounty
+        </a>
+        expires
+        <span title="2020-06-15 11:53:24Z">
+         in 6 days
+        </span>
+       </b>
+       . Answers to this question are eligible for a
+       <span class="s-badge__bounty d-inline px4 py2 ba bc-transparent bar-sm fs-caption va-middle">
+        +200
+       </span>
+       reputation bounty.
+       <a href="/users/43319/ad%c3%a1m">
+        Adám
+       </a>
+       wants to
+       <b>
+        reward an existing answer
+       </b>
+       :
+       <blockquote>
+        <div>
+         <a href="https://codegolf.stackexchange.com/a/205242/43319">
+          This
+         </a>
+         well-explained answer is the new winner and was the first in APL here, so it qualifies for
+         <a href="https://codegolf.meta.stackexchange.com/a/17363/43319">
+          this bounty
+         </a>
+        </div>
+       </blockquote>
+      </div>
+     </div>
+    </div>
+   </div>
+  </aside>
+ </div>
+ <p>
+  The Hamming(7,4) code goes back to 1950. Back then Richard Hamming worked as a mathematician at Bell Labs. Every Friday Hamming set the calculating machines to perform a series of calculation, and collected the results on the following Monday. Using parity checks, these machines were able to detect errors during the computation. Frustrated, because he received error messages way too often, Hamming decided to improve the error detection and discovered the famous Hamming codes.
+ </p>
+ <h2>
+  Mechanics of the Hamming(7,4)
+ </h2>
+ <p>
+  The goal of Hamming codes is to create a set of parity bits that overlap such that a single-bit error (one bit is flipped) in a data bit or a parity bit can be detected and corrected. Only if there occur multiple errors, the Hamming code fails of recovering the original data. It may not notice an error at all, or even correct it falsely. Therefore in this challenge we will only deal with single-bit errors.
+ </p>
+ <p>
+  As an example of the Hamming codes, we will look at the Hamming(7,4) code. Additionally to 4 bits of data
+  <code>
+   d1, d2, d3, d4
+  </code>
+  it uses 3 parity bits
+  <code>
+   p1, p2, p3
+  </code>
+  , which are calculated using the following equations:
+ </p>
+ <pre><code>p1 = (d1 + d2 + d4) % 2
+p2 = (d1 + d3 + d4) % 2
+p3 = (d2 + d3 + d4) % 2
+</code></pre>
+ <p>
+  The resulting codeword (data + parity bits) is of the form
+  <code>
+   p1 p2 d1 p3 d2 d3 d4
+  </code>
+  .
+ </p>
+ <p>
+  Detecting an error works the following way. You recalculate the parity bits, and check if they match the received parity bits. In the following table you can see, that every variety of a single-bit error yields a different matching of the parity bits. Therefore every single-bit error can be localized and corrected.
+ </p>
+ <pre><code>error in bit | p1 | p2 | d1 | p3 | d2 | d3 | d4 | no error
+-------------|---------------------------------------------
+p1 matches   | no | yes| no | yes| no | yes| no | yes
+p2 matches   | yes| no | no | yes| yes| no | no | yes
+p3 matches   | yes| yes| yes| no | no | no | no | yes
+</code></pre>
+ <h2>
+  Example
+ </h2>
+ <p>
+  Let your data be
+  <code>
+   1011
+  </code>
+  . The parity bits are
+  <code>
+   p1 = 1 + 0 + 1 = 0
+  </code>
+  ,
+  <code>
+   p2 = 1 + 1 + 1 = 1
+  </code>
+  and
+  <code>
+   p3 = 0 + 1 + 1 = 0
+  </code>
+  . Combine the data and the parity bits and you get the codeword
+  <code>
+   0110011
+  </code>
+  .
+ </p>
+ <pre><code>data bits   |   1 011
+parity bits | 01 0
+--------------------
+codeword    | 0110011
+</code></pre>
+ <p>
+  Lets say during a transmission or a computation the 6th bit (= 3rd data bit) flips. You receive the word
+  <code>
+   0110001
+  </code>
+  . The alleged received data is
+  <code>
+   1001
+  </code>
+  . You calculate the parity bits again
+  <code>
+   p1 = 1 + 0 + 1 = 0
+  </code>
+  ,
+  <code>
+   p2 = 1 + 0 + 1 = 0
+  </code>
+  ,
+  <code>
+   p3 = 0 + 0 + 1 = 1
+  </code>
+  . Only
+  <code>
+   p1
+  </code>
+  matches the parity bits of the codeword
+  <code>
+   0110001
+  </code>
+  . Therefore an error occurred. Looking at the table above, tells us that the error occurred in
+  <code>
+   d3
+  </code>
+  and you can recover the original data
+  <code>
+   1011
+  </code>
+  .
+ </p>
+ <h2>
+  Challenge:
+ </h2>
+ <p>
+  Write a function or a program, that receives a word (7 bits), one of the bits might be wrong, and recover the original data. The input (via STDIN, command-line argument, prompt or function argument) format may be a string
+  <code>
+   "0110001"
+  </code>
+  , a list or an array
+  <code>
+   [0, 1, 1, 0, 0, 0, 1]
+  </code>
+  or an integer in MSB
+  <code>
+   0b0110001 = 49
+  </code>
+  . As described above, the order of the input is
+  <code>
+   p1 p2 d1 p3 d2 d3 d4
+  </code>
+  . The output (via return value or STDOUT) has to be of the same format, but in the order
+  <code>
+   d1 d2 d3 d4
+  </code>
+  . Only return/output the 4 data bits.
+ </p>
+ <p>
+  This is code-golf. Therefore the shortest code wins.
+ </p>
+ <h2>
+  Test cases:
+ </h2>
+ <pre><code>1110000 -&gt; 1000  # no error
+1100000 -&gt; 1000  # error at 1st data bit
+1111011 -&gt; 1111  # error at 2nd data bit
+0110001 -&gt; 1011  # error at 3rd data bit (example)
+1011011 -&gt; 1010  # error at 4th data bit
+0101001 -&gt; 0001  # error at 1st parity bit
+1010000 -&gt; 1000  # error at 2nd parity bit
+0100010 -&gt; 0010  # error at 3rd parity bit
+</code></pre>
+ <p>
+  <div class="snippet" data-hide="true" data-lang="js">
+   <div class="snippet-code snippet-currently-hidden">
+    <pre class="snippet-code-js lang-js prettyprint-override"><code>function answersUrl(e){return"http://api.stackexchange.com/2.2/questions/"+QUESTION_ID+"/answers?page="+e+"&amp;pagesize=100&amp;order=desc&amp;sort=creation&amp;site=codegolf&amp;filter="+ANSWER_FILTER}function getAnswers(){$.ajax({url:answersUrl(page++),method:"get",dataType:"jsonp",crossDomain:true,success:function(e){answers.push.apply(answers,e.items);if(e.has_more)getAnswers();else process()}})}function shouldHaveHeading(e){var t=false;var n=e.body_markdown.split("\n");try{t|=/^#/.test(e.body_markdown);t|=["-","="].indexOf(n[1][0])&gt;-1;t&amp;=LANGUAGE_REG.test(e.body_markdown)}catch(r){}return t}function shouldHaveScore(e){var t=false;try{t|=SIZE_REG.test(e.body_markdown.split("\n")[0])}catch(n){}return t}function getAuthorName(e){return e.owner.display_name}function process(){answers=answers.filter(shouldHaveScore).filter(shouldHaveHeading);answers.sort(function(e,t){var n=+(e.body_markdown.split("\n")[0].match(SIZE_REG)||[Infinity])[0],r=+(t.body_markdown.split("\n")[0].match(SIZE_REG)||[Infinity])[0];return n-r});var e={};var t=0,c=0,p=-1;answers.forEach(function(n){var r=n.body_markdown.split("\n")[0];var i=$("#answer-template").html();var s=r.match(NUMBER_REG)[0];var o=(r.match(SIZE_REG)||[0])[0];var u=r.match(LANGUAGE_REG)[1];var a=getAuthorName(n);t++;c=p==o?c:t;i=i.replace("{{PLACE}}",c+".").replace("{{NAME}}",a).replace("{{LANGUAGE}}",u).replace("{{SIZE}}",o).replace("{{LINK}}",n.share_link);i=$(i);p=o;$("#answers").append(i);e[u]=e[u]||{lang:u,user:a,size:o,link:n.share_link}});var n=[];for(var r in e)if(e.hasOwnProperty(r))n.push(e[r]);n.sort(function(e,t){if(e.lang&gt;t.lang)return 1;if(e.lang&lt;t.lang)return-1;return 0});for(var i=0;i&lt;n.length;++i){var s=$("#language-template").html();var r=n[i];s=s.replace("{{LANGUAGE}}",r.lang).replace("{{NAME}}",r.user).replace("{{SIZE}}",r.size).replace("{{LINK}}",r.link);s=$(s);$("#languages").append(s)}}var QUESTION_ID=45684;var ANSWER_FILTER="!t)IWYnsLAZle2tQ3KqrVveCRJfxcRLe";var answers=[],page=1;getAnswers();var SIZE_REG=/\d+(?=[^\d&amp;]*(?:&amp;lt;(?:s&amp;gt;[^&amp;]*&amp;lt;\/s&amp;gt;|[^&amp;]+&amp;gt;)[^\d&amp;]*)*$)/;var NUMBER_REG=/\d+/;var LANGUAGE_REG=/^#*\s*([^,]+)/</code></pre>
+    <pre class="snippet-code-css lang-css prettyprint-override"><code>body{text-align:left!important}#answer-list,#language-list{padding:10px;width:290px;float:left}table thead{font-weight:700}table td{padding:5px}</code></pre>
+    <pre class="snippet-code-html lang-html prettyprint-override"><code>&lt;script src=https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js&gt;&lt;/script&gt;&lt;link rel=stylesheet type=text/css href="//cdn.sstatic.net/codegolf/all.css?v=83c949450c8b"&gt;&lt;div id=answer-list&gt;&lt;h2&gt;Leaderboard&lt;/h2&gt;&lt;table class=answer-list&gt;&lt;thead&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;Author&lt;td&gt;Language&lt;td&gt;Size&lt;tbody id=answers&gt;&lt;/table&gt;&lt;/div&gt;&lt;div id=language-list&gt;&lt;h2&gt;Winners by Language&lt;/h2&gt;&lt;table class=language-list&gt;&lt;thead&gt;&lt;tr&gt;&lt;td&gt;Language&lt;td&gt;User&lt;td&gt;Score&lt;tbody id=languages&gt;&lt;/table&gt;&lt;/div&gt;&lt;table style=display:none&gt;&lt;tbody id=answer-template&gt;&lt;tr&gt;&lt;td&gt;{{PLACE}}&lt;/td&gt;&lt;td&gt;{{NAME}}&lt;td&gt;{{LANGUAGE}}&lt;td&gt;{{SIZE}}&lt;td&gt;&lt;a href={{LINK}}&gt;Link&lt;/a&gt;&lt;/table&gt;&lt;table style=display:none&gt;&lt;tbody id=language-template&gt;&lt;tr&gt;&lt;td&gt;{{LANGUAGE}}&lt;td&gt;{{NAME}}&lt;td&gt;{{SIZE}}&lt;td&gt;&lt;a href={{LINK}}&gt;Link&lt;/a&gt;&lt;/table&gt;</code></pre>
+   </div>
+  </div>
+ </p>
+</div>
