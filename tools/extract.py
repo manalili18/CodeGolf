@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import argparse, bs4, urllib.request, os
+import argparse, bs4, urllib.request, os, subprocess
 
 def main():
     init()
@@ -36,7 +36,7 @@ def init_beautiful_soup():
 
     soup = bs4.BeautifulSoup(mybytes,features="html.parser")
 
-    #print(soup.findAll("div",{"class":"post-text"}).prettify())
+    # TODO add htmlpreview.github.io/?<url> link to prompt
     prompt = url
     prompt += '\n\n'
     prompt += soup.find("a",{"class":"question-hyperlink"}).parent.prettify()
@@ -64,8 +64,9 @@ def git_track_prompt():
     # Description: shell commands in python
     # Source: https://janakiev.com/blog/python-shell-commands/
     # Date Accessed: 2020-06-09
-    os.system('git add ' + prompt_path + ' ' + prototype_path)
-    os.system('git commit -m "added prompt for ' + name)
+    # TODO try this with subprocess instead
+    #os.system('git add ' + prompt_path + ' ' + prototype_path 
+            #+ '; git commit -m "added prompt for ' + name + '; git push')
     
 if __name__ == "__main__":
     main()
