@@ -1,11 +1,9 @@
 #!/usr/bin/python3
 
-import argparse, bs4, urllib.request
+import argparse, bs4, urllib.request, os
 
 def main():
     init()
-    print(prompt)
-    # TODO make files/folders, extract the prompt
     create_working_dir()
 
 def init():
@@ -39,17 +37,21 @@ def init_beautiful_soup():
     soup = bs4.BeautifulSoup(mybytes,features="html.parser")
 
     #print(soup.findAll("div",{"class":"post-text"}).prettify())
-    prompt = soup.find("a",{"class":"question-hyperlink"}).parent.prettify()
-    prompt += '\n\n\n'
+    prompt = url
+    prompt += '\n\n'
+    prompt += soup.find("a",{"class":"question-hyperlink"}).parent.prettify()
+    prompt += '\n\n'
     prompt += soup.find("div",{"class":"post-text"}).prettify()
 
 def create_working_dir():
-
     # Description: File i/o help
     # Source: https://www.tutorialspoint.com/python/python_files_io.htm
+    # Source: https://www.pythonforbeginners.com/files/with-statement-in-python
     # Date Accessed: 2020-06-09
 
-    return
+    os.mkdir(name)
+    with open(name+'/prompt.html','w') as prompt_file:
+        prompt_file.write(prompt)
 
 if __name__ == "__main__":
     main()
