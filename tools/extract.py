@@ -53,5 +53,19 @@ def create_working_dir():
     with open(name+'/prompt.html','w') as prompt_file:
         prompt_file.write(prompt)
 
+    with open(name+'/main.py','w') as prototype:
+        prototype.write('# Code goes here')
+
+
+def git_track_prompt():
+    prompt_path = name+'/prompt.html'
+    prototype_path = name+'/main.py'
+
+    # Description: shell commands in python
+    # Source: https://janakiev.com/blog/python-shell-commands/
+    # Date Accessed: 2020-06-09
+    os.system('git add ' + prompt_path + ' ' + prototype_path)
+    os.system('git commit -m "added prompt for ' + name)
+    
 if __name__ == "__main__":
     main()
